@@ -24,6 +24,8 @@ public class MyService extends BackgroundService {
 	
 	private String mHelloTo = "World";
 
+	
+
 	@Override
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
@@ -43,8 +45,12 @@ public class MyService extends BackgroundService {
 			mNotifyMgr.notify(mNotificationId, mBuilder.build());
 	
 	
-	
-			result.put("Message", "skata");
+	SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+			String now = df.format(new Date(System.currentTimeMillis())); 
+
+			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
+			result.put("Message", msg);
+
 
 			Log.d(TAG, "skata");
 		} catch (JSONException e) {
