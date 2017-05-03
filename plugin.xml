@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.red_folder.phonegap.plugin.backgroundservice.sample"
-        version="2.0.0">
+        id="com.notifications.epsilonnet"
+        version="2.1">
 
     <name>Background Service Plugin - Sample Background Service</name>
 
@@ -30,9 +30,9 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
   
-            <service android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.MyService">
+            <service android:name="com.notifications.epsilonnet.MyService">
                 <intent-filter>         
-                    <action android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.MyService"/> 
+                    <action android:name="com.notifications.epsilonnet.MyService"/> 
                 </intent-filter>     
             </service>
             
