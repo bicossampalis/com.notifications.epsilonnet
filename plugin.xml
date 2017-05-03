@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.notifications.epsilonnet"
-        version="2.5">
+        version="2.6">
 
     <name>Background Service Plugin - Sample Background Service</name>
 
@@ -40,11 +40,11 @@
         
         <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
 		 <source-file src="src/android/BackgroundService.java" target-dir="src/com/notifications/epsilonnet" />
-		  <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
-		   <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
-		    <source-file src="src/android/MyService.java" target-dir="ssrc/com/notifications/epsilonnet" />
-			 <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
-			  <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
+		  <source-file src="src/android/BackgroundServicePlugin.java" target-dir="src/com/notifications/epsilonnet" />
+		   <source-file src="src/android/BackgroundServicePluginLogic.java" target-dir="src/com/notifications/epsilonnet" />
+		    <source-file src="src/android/BootReceiver.java" target-dir="ssrc/com/notifications/epsilonnet" />
+			 <source-file src="src/android/PropertyHelper.java" target-dir="src/com/notifications/epsilonnet" />
+			  <source-file src="src/android/ReflectionHelper.java" target-dir="src/com/notifications/epsilonnet" />
     </platform>
 	
 </plugin>
