@@ -34,7 +34,7 @@ public class MyService extends BackgroundService {
 		try {
 			NotificationCompat.Builder mBuilder =
     new NotificationCompat.Builder(this)
-    .setSmallIcon(R.drawable.ic_launcher)
+    .setSmallIcon(R.drawable.alert_dark_frame)
     .setContentTitle("My notification")
     .setContentText("Hello World!");
 	
