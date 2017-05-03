@@ -6,6 +6,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,7 +34,7 @@ public class MyService extends BackgroundService {
 		try {
 			NotificationCompat.Builder mBuilder =
     new NotificationCompat.Builder(this)
-    .setSmallIcon(0)
+    .setSmallIcon(R.drawable.notification_icon)
     .setContentTitle("My notification")
     .setContentText("Hello World!");
 	
