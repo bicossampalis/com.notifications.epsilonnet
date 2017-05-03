@@ -33,10 +33,21 @@ public class MyService extends BackgroundService {
     .setSmallIcon(0)
     .setContentTitle("My notification")
     .setContentText("Hello World!");
+	
+			int mNotificationId = 001;
+			// Gets an instance of the NotificationManager service
+			NotificationManager mNotifyMgr =
+			        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			// Builds the notification and issues it.
+			mNotifyMgr.notify(mNotificationId, mBuilder.build());
+	
+	
+	
 			result.put("Message", "skata");
 
 			Log.d(TAG, "skata");
 		} catch (JSONException e) {
+		result.put("Message", "skata2");
 		}
 		
 		return result;	
