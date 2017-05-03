@@ -6,6 +6,14 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+ import android.support.v4.app.NotificationCompat;
+import android.view.View;
+import android.widget.Button;
+
 import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
@@ -28,7 +36,7 @@ public class MyService extends BackgroundService {
     .setContentText("Hello World!");
 			result.put("Message", "skata");
 
-			Log.d(TAG, msg);
+			Log.d(TAG, "skata");
 		} catch (JSONException e) {
 		}
 		
