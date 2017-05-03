@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.notifications.epsilonnet"
-        version="2.2">
+        version="2.4">
 
     <name>Background Service Plugin - Sample Background Service</name>
 
@@ -17,7 +17,7 @@
     </engines>
 
 	<!-- Load in the core background service -->
-	<dependency id="com.red_folder.phonegap.plugin.backgroundservice" url="https://github.com/Red-Folder/bgs-core.git"/>
+	 <!-- <dependency id="com.red_folder.phonegap.plugin.backgroundservice" url="https://github.com/Red-Folder/bgs-core.git"/> -->
 
     <!-- android -->
     <platform name="android">
@@ -38,7 +38,13 @@
             
         </config-file>
         
-        <source-file src="src/android/MyService.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
+        <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
+		 <source-file src="src/android/BackgroundService.java" target-dir="src/com/notifications/epsilonnet" />
+		  <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
+		   <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
+		    <source-file src="src/android/MyService.java" target-dir="ssrc/com/notifications/epsilonnet" />
+			 <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
+			  <source-file src="src/android/MyService.java" target-dir="src/com/notifications/epsilonnet" />
     </platform>
 	
 </plugin>
