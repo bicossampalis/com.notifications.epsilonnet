@@ -135,7 +135,8 @@
 					refreshBtn.disabled = false;
 					refreshBtn.onclick = getStatus;
 
-				} else { 
+				}
+				else {
 					serviceStatus.innerHTML = "Not running";
 					serviceBtn.onclick = startService;
 					timerBtn.disabled = true;
@@ -149,7 +150,8 @@
 				if (data.RegisteredForBootStart) {
 					bootStatus.innerHTML = "Registered";
 					bootBtn.onclick = deregisterForBootStart;
-				} else {
+				}
+				else {
 					bootStatus.innerHTML = "Not registered";
 					bootBtn.onclick = registerForBootStart;
 				}
@@ -158,7 +160,8 @@
 				if (data.RegisteredForUpdates) {
 					listenStatus.innerHTML = "Registered";
 					listenBtn.onclick = deregisterForUpdates;
-				} else {
+				}
+				else {
 					listenStatus.innerHTML = "Not registered";
 					listenBtn.onclick = registerForUpdates;
 				}

@@ -1,4 +1,4 @@
-package com.notifications.epsilonnet.sample;
+package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.notifications.epsilonnet.BackgroundService;
+import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
 public class MyService extends BackgroundService {
 	
