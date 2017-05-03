@@ -1,6 +1,6 @@
-package com.red_folder.phonegap.plugin.backgroundservice;   
+package com.notifications.epsilonnet;   
 
-import com.red_folder.phonegap.plugin.backgroundservice.BackgroundServiceListener;
+import com.notifications.epsilonnet.BackgroundServiceListener;
 
 interface BackgroundServiceApi {  
 	String getLatestResult();     

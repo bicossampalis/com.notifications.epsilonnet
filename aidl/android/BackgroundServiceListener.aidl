@@ -1,4 +1,4 @@
-package com.red_folder.phonegap.plugin.backgroundservice;   
+package com.notifications.epsilonnet;   
 
 interface BackgroundServiceListener {     
 	void handleUpdate(); 
