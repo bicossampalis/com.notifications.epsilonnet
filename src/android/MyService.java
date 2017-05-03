@@ -21,11 +21,12 @@ public class MyService extends BackgroundService {
 		JSONObject result = new JSONObject();
 		
 		try {
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-			String now = df.format(new Date(System.currentTimeMillis())); 
-
-			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
-			result.put("Message", msg);
+			NotificationCompat.Builder mBuilder =
+    new NotificationCompat.Builder(this)
+    .setSmallIcon(R.drawable.notification_icon)
+    .setContentTitle("My notification")
+    .setContentText("Hello World!");
+			result.put("Message", "skata");
 
 			Log.d(TAG, msg);
 		} catch (JSONException e) {
