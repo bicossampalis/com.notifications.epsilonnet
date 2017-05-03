@@ -48,7 +48,7 @@ public class MyService extends BackgroundService {
 
 			Log.d(TAG, "skata");
 		} catch (JSONException e) {
-		result.put("Message", "skata2");
+		
 		}
 		
 		return result;	
