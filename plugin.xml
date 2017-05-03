@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.red_folder.phonegap.plugin.backgroundservice.sample"
-        version="2.14">
+        version="2.15">
 
     <name>Background Service Plugin - Sample Background Service</name>
 
@@ -21,6 +21,7 @@
 
     <!-- android -->
     <platform name="android">
+ <framework src="com.android.support:support-v4:+" value="gradle" />
 
 		<asset src="www/myService.html" target="myService.html" />
 
