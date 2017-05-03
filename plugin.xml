@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.notifications.epsilonnet"
-        version="2.8">
+        version="2.9">
 
     <name>Background Service Plugin - Sample Background Service</name>
 
@@ -23,6 +23,10 @@
     <platform name="android">
 
 		<asset src="www/myService.html" target="myService.html" />
+
+
+<js-module src="www/backgroundService.js" name="BackgroundService">
+		</js-module>
 
 		<js-module src="www/myService.js" name="MyService">
 			<clobbers target="cordova.plugins.myService" />
