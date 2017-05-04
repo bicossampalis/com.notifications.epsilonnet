@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import android.graphics.drawable;
+
 
 
 public class MyService extends BackgroundService {
@@ -178,13 +178,12 @@ public class MyService extends BackgroundService {
 			PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		
-		Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon("com.epsilonnet.pylonmanagement");
 		
 					
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 				.setSound(uri)
-				.setSmallIcon(icon)
+				.setSmallIcon(R.mipmap.ic_launcher)
 				.setContentTitle("My notification")
 				.setContentText(msg)
 				.setContentIntent(resultPendingIntent);
