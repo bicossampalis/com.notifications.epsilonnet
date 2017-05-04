@@ -127,7 +127,7 @@ public class MyService extends BackgroundService {
 			wr = new OutputStreamWriter(con.getOutputStream());
 			wr.write(loginData);
 			wr.flush();
-		} catch (IOException e1) {
+		} catch (IOException e) {
 			e1.printStackTrace();
 			CreateNotification(95, e.getMessage());
 			return;
