@@ -32,7 +32,7 @@ public class MyService extends BackgroundService {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
-	private String mHelloTo = "World";
+	private static String mHelloTo = "World";
 
 	
 
@@ -64,7 +64,7 @@ PendingIntent resultPendingIntent =
     this,
     0,
     resultIntent,
-    PendingIntent.FLAG_UPDATE_CURRENT
+    0
 );
 	mBuilder.setContentIntent(resultPendingIntent);
 	
