@@ -85,6 +85,11 @@ public class MyService extends BackgroundService {
 	private void Login() {
 		
 		String url = GetUrl("secureloginculture2");
+		String loginData = getParams(_LoginData);
+		if (url.equals(_MissingParam) || loginData.equals(_MissingParam))
+			return;
+		
+		
 		URL obj = null;
 		try {
 			obj = new URL(url);
@@ -120,7 +125,7 @@ public class MyService extends BackgroundService {
 		OutputStreamWriter wr;
 		try {
 			wr = new OutputStreamWriter(con.getOutputStream());
-			wr.write(_Logindata);
+			wr.write(loginData);
 			wr.flush();
 		} catch (IOException e1) {
 			e1.printStackTrace();
