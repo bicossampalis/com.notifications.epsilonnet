@@ -53,7 +53,7 @@ public class MyService extends BackgroundService {
     .setContentTitle("My notification")
     .setContentText(this.mHelloTo);
 	
-	Intent resultIntent = new Intent(this, ResultActivity.class);
+	Intent resultIntent = new Intent(this, Class.forName("com.epsilonnet.pylonmanagement"));
 	
 	 resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
             | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -61,10 +61,10 @@ public class MyService extends BackgroundService {
 
 PendingIntent resultPendingIntent =
     PendingIntent.getActivity(
-    this,
+    context,
     0,
     resultIntent,
-    0
+    PendingIntent.FLAG_UPDATE_CURRENT
 );
 	mBuilder.setContentIntent(resultPendingIntent);
 	
