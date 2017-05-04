@@ -51,11 +51,11 @@ public class MyService extends BackgroundService {
     .setContentTitle("My notification")
     .setContentText(this.mHelloTo);
 	
-	
-	
-	
-	
 	Intent resultIntent = new Intent(this, ResultActivity.class);
+	
+	 resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
 
 PendingIntent resultPendingIntent =
     PendingIntent.getActivity(
@@ -129,6 +129,15 @@ PendingIntent resultPendingIntent =
 		// TODO Auto-generated method stub
 		
 	}
+}
 
+public class ResultActivity extends Activity {
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       
+    }
+
+   
 }
