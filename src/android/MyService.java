@@ -40,7 +40,7 @@ public class MyService extends BackgroundService {
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
 		
-		JSONObject latestResult = base.getLatestResult();
+		JSONObject latestResult = super.getLatestResult();
 		
 		try {
 			
