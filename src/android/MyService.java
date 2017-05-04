@@ -32,11 +32,33 @@ public class MyService extends BackgroundService {
 		JSONObject result = new JSONObject();
 		
 		try {
+		
+		Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+
+		
 			NotificationCompat.Builder mBuilder =
     new NotificationCompat.Builder(this)
-    .setSmallIcon(R.drawable.alert_dark_frame)
+	.setSound(uri)
+    .setSmallIcon(R.mipmap.icon)
     .setContentTitle("My notification")
     .setContentText("Hello World!");
+	
+	
+	
+	
+	
+	Intent resultIntent = new Intent(this, ResultActivity.class);
+
+PendingIntent resultPendingIntent =
+    PendingIntent.getActivity(
+    this,
+    0,
+    resultIntent,
+    PendingIntent.FLAG_UPDATE_CURRENT
+);
+	mBuilder.setContentIntent(resultPendingIntent);
+	
 	
 			int mNotificationId = 001;
 			// Gets an instance of the NotificationManager service
