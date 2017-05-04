@@ -81,7 +81,6 @@ public class MyService extends BackgroundService {
 		return url;
 	}
 
- 
 	private void Login() {
 		
 		String url = GetUrl("secureloginculture2");
@@ -128,7 +127,7 @@ public class MyService extends BackgroundService {
 			wr.write(loginData);
 			wr.flush();
 		} catch (IOException e) {
-			e1.printStackTrace();
+			e.printStackTrace();
 			CreateNotification(95, e.getMessage());
 			return;
 		}
@@ -220,7 +219,6 @@ public class MyService extends BackgroundService {
 		mNotifyMgr.notify(notificationId, mBuilder.build());
 	}
 	
-
 	@Override
 	protected JSONObject doWork() {
 		
