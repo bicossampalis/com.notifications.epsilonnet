@@ -19,6 +19,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
@@ -32,29 +33,45 @@ public class MyService extends BackgroundService {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
-	private static String mHelloTo = "DefaultValue";
+	private static String mParams = "Default";
+	
+	private static String mParamsDefault = "Default";
 
+	
+	public int getParams() {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
+		// Should default to a minute
+		return sharedPrefs.getString(this.getClass().getName() + ".Params", mParamsDefault);	
+	}
+
+	public void setParams(String params) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
+
+		SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString(this.getClass().getName() + ".Params", params);
+        editor.commit();
+	}
+	
 	
 
 	@Override
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
 		
-		JSONObject latestResult = super.getLatestResult();
+		
 		
 		try {
 		
-						
-			
-			if (latestResult != null && latestResult.has("Message"))
-				this.mHelloTo = latestResult.getString("Message");
+			if (getParams().equals(mParamsDefault)) {
+				setParams(mParams);
+			}
 				
 
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 			String now = df.format(new Date(System.currentTimeMillis())); 
-			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
-			
-			result.put("Message", "sds");
+			String msg = "Hello " + getParams() + " - its currently " + now;
+
+			result.put("Message", getParams());
 			
 			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		
@@ -94,7 +111,7 @@ public class MyService extends BackgroundService {
 		JSONObject result = new JSONObject();
 		
 		try {
-			result.put("HelloTo", this.mHelloTo);
+			result.put("HelloTo", this.mParams);
 		} catch (JSONException e) {
 		}
 		
@@ -105,7 +122,7 @@ public class MyService extends BackgroundService {
 	protected void setConfig(JSONObject config) {
 		try {
 			if (config.has("HelloTo"))
-				this.mHelloTo = config.getString("HelloTo");
+				this.mParams = config.getString("HelloTo");
 		} catch (JSONException e) {
 		}
 		
