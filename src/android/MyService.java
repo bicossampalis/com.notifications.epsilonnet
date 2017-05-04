@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
-import ResultActivity;
+import com.red_folder.phonegap.plugin.backgroundservice.sample.ResultActivity;
 
 import android.util.Log;
 
