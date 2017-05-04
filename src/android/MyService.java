@@ -48,12 +48,13 @@ public class MyService extends BackgroundService {
 			
 			if (latestResult != null && latestResult.has("Message"))
 				this.mHelloTo = latestResult.getString("Message");
+				
 
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 			String now = df.format(new Date(System.currentTimeMillis())); 
 			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
 			
-			result.put("Message", this.mHelloTo);
+			result.put("Message", "sds");
 			
 			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		
