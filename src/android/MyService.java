@@ -6,6 +6,13 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+
+import android.app.Activity;
+import android.content.Intent;
+
 import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -40,9 +47,9 @@ public class MyService extends BackgroundService {
 			NotificationCompat.Builder mBuilder =
     new NotificationCompat.Builder(this)
 	.setSound(uri)
-    .setSmallIcon(R.mipmap.icon)
+    .setSmallIcon(R.mipmap.sym_def_app_icon)
     .setContentTitle("My notification")
-    .setContentText("Hello World!");
+    .setContentText(this.mHelloTo);
 	
 	
 	
