@@ -32,7 +32,7 @@ public class MyService extends BackgroundService {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
-	private static String mHelloTo = "World";
+	private static String mHelloTo = "DefaultValue";
 
 	
 
@@ -40,13 +40,24 @@ public class MyService extends BackgroundService {
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
 		
+		JSONObject latestResult = base.getLatestResult();
+		
 		try {
+			
+			if (this.mHelloTo.equals("DefaultValue") && latestResult.has("Message"))
+				this.mHelloTo = latestResult.getString("Message");
+
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+			String now = df.format(new Date(System.currentTimeMillis())); 
+			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
+			
+			result.put("Message", this.mHelloTo);
 			
 			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		
-			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Class.forName("com.epsilonnet.pylonmanagement"));
+			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Result.class);
 			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			
+
 			PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 			NotificationCompat.Builder mBuilder =
@@ -54,7 +65,7 @@ public class MyService extends BackgroundService {
 				.setSound(uri)
 				.setSmallIcon(R.mipmap.sym_def_app_icon)
 				.setContentTitle("My notification")
-				.setContentText(this.mHelloTo)
+				.setContentText(msg)
 				.setContentIntent(resultPendingIntent);
 
 	
@@ -64,12 +75,7 @@ public class MyService extends BackgroundService {
 			// Builds the notification and issues it.
 			mNotifyMgr.notify(mNotificationId, mBuilder.build());
 	
-	
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-			String now = df.format(new Date(System.currentTimeMillis())); 
-
-			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
-			result.put("Message", msg);
+		
 
 
 			Log.d(TAG, "skata");
