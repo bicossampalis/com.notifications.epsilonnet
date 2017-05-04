@@ -39,7 +39,7 @@ public class MyService extends BackgroundService {
 	private static String mParamsDefault = "Default";
 
 	
-	public int getParams() {
+	public String getParams() {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
 		// Should default to a minute
 		return sharedPrefs.getString(this.getClass().getName() + ".Params", mParamsDefault);	
