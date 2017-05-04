@@ -179,7 +179,7 @@ public class MyService extends BackgroundService {
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 				.setSound(uri)
-				.setSmallIcon(R.mipmap.sym_def_app_icon)
+				.setSmallIcon(R.mipmap.icon-48-mdpi)
 				.setContentTitle("My notification")
 				.setContentText(msg)
 				.setContentIntent(resultPendingIntent);
