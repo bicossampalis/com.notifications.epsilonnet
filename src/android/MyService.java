@@ -43,8 +43,10 @@ public class MyService extends BackgroundService {
 		JSONObject latestResult = super.getLatestResult();
 		
 		try {
+		
+						
 			
-			if (this.mHelloTo.equals("DefaultValue") && latestResult.has("Message"))
+			if (latestResult != null && latestResult.has("Message"))
 				this.mHelloTo = latestResult.getString("Message");
 
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
