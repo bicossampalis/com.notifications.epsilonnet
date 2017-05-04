@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import android.graphics.drawable
+import android.graphics.drawable;
 
 
 public class MyService extends BackgroundService {
