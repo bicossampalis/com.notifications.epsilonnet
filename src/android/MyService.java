@@ -247,7 +247,12 @@ public class MyService extends BackgroundService {
 		JSONObject result = new JSONObject();
 		
 		try {
-			//result.put("HelloTo", this.mParams);
+			result.put(_IPAddress, getParams(_IPAddress));
+			result.put(_Port, getParams(_Port));
+			result.put(_Cookie, getParams(_Cookie));
+			result.put(_RoleID, getParams(_RoleID));
+			result.put(_LoginData, getParams(_LoginData));
+			result.put(_Https, getParams(_Https));
 		} catch (JSONException e) {
 		}
 		
