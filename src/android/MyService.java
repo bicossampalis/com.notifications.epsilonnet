@@ -78,7 +78,8 @@ url += "://" + ipAddress + ":" + port + "/hercjson/" + operation;
 return url;
 }
 
-private void setLogData(String timestamp, String contentMsg) throws JSONException{
+private void setLogData(String timestamp, String contentMsg) {
+try{
 String logStr = getParams(_LogData);
 JSONObject logJson = null;
 if(logStr.equals(_MissingParam)){
@@ -102,6 +103,9 @@ List<JSONObject>
 		JSONObject newLogJson = new JSONObject();
 		newLogJson.put("Array", log);
 		setParams(_LogData,newLogJson.toString());
+		} catch (JSONException e) {
+			
+		}
 		}
 	private boolean Login() throws JSONException {
 		
