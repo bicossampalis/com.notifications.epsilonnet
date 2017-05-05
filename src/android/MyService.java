@@ -36,59 +36,62 @@ import java.util.List;
 
 
 public class MyService extends BackgroundService {
-	
-	private final static String TAG = MyService.class.getSimpleName();
-	
-	private final static String _MissingParam = "##Frankenstein##";
-	private final static String _IPAddress = "IPAddress";
-	private final static String _Port = "Port";
-	private final static String _Cookie = "Cookie";
-	private final static String _RoleID = "RoleID";
-	private final static String _LoginData = "LoginData";
-	private final static String _Https = "Https";
-    private final static String _Uuid = "Uuid";
-	private final static String _LogData = "LogData";
-	
-	public String getParams(String key) {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
-		return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);	
-	}
 
-	public void setParams(String key, String value) {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
-		SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putString(this.getClass().getName() + "." + key, value);
-        editor.commit();
-	}
+private final static String TAG = MyService.class.getSimpleName();
 
-	private String GetUrl(String operation) {
-		
-		String ipAddress = getParams(_IPAddress);
-		String port = getParams(_Port);
-		String https = getParams(_Https);
+private final static String _MissingParam = "##Frankenstein##";
+private final static String _IPAddress = "IPAddress";
+private final static String _Port = "Port";
+private final static String _Cookie = "Cookie";
+private final static String _RoleID = "RoleID";
+private final static String _LoginData = "LoginData";
+private final static String _Https = "Https";
+private final static String _Uuid = "Uuid";
+private final static String _LogData = "LogData";
 
-		if (ipAddress.equals(_MissingParam) || port.equals(_MissingParam) || https.equals(_MissingParam))
-			return _MissingParam;
+public String getParams(String key) {
+SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);
+}
 
-		String url = "http";
-		if (https.equals("1"))
-			url = "https";
+public void setParams(String key, String value) {
+SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+SharedPreferences.Editor editor = sharedPrefs.edit();
+editor.putString(this.getClass().getName() + "." + key, value);
+editor.commit();
+}
 
-		url += "://" + ipAddress + ":" + port + "/hercjson/" + operation;
-		return url;
-	}
+private String GetUrl(String operation) {
 
-	private void setLogData(String timestamp, String contentMsg) throws JSONException{
-		String logStr = getParams(_LogData);
-	  JSONObject logJson = null;
-		if(logStr.equals(_MissingParam)){	   
-			logJson = new JSONObject();
-			List<JSONObject> logEmpty = new ArrayList<JSONObject>();
-			logJson.put("Array", logEmpty);
-		}
-		else
-			logJson = new JSONObject(logStr);
-		List<JSONObject> log =  (List<JSONObject>) logJson.get("Array");
+String ipAddress = getParams(_IPAddress);
+String port = getParams(_Port);
+String https = getParams(_Https);
+
+if (ipAddress.equals(_MissingParam) || port.equals(_MissingParam) || https.equals(_MissingParam))
+return _MissingParam;
+
+String url = "http";
+if (https.equals("1"))
+url = "https";
+
+url += "://" + ipAddress + ":" + port + "/hercjson/" + operation;
+return url;
+}
+
+private void setLogData(String timestamp, String contentMsg) throws JSONException{
+String logStr = getParams(_LogData);
+JSONObject logJson = null;
+if(logStr.equals(_MissingParam)){
+logJson = new JSONObject();
+List<JSONObject>
+  logEmpty = new ArrayList<JSONObject>
+    ();
+    logJson.put("Array", logEmpty);
+    }
+    else
+    logJson = new JSONObject(logStr);
+    List<JSONObject>
+      log =  (List<JSONObject>) logJson.get("Array");
 		if(log.size() == 100){
 			log.remove(0);
 		}
@@ -122,7 +125,7 @@ public class MyService extends BackgroundService {
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -135,7 +138,7 @@ public class MyService extends BackgroundService {
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -146,7 +149,7 @@ public class MyService extends BackgroundService {
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -155,7 +158,7 @@ public class MyService extends BackgroundService {
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -164,7 +167,7 @@ public class MyService extends BackgroundService {
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 		
@@ -177,7 +180,7 @@ public class MyService extends BackgroundService {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -185,7 +188,7 @@ public class MyService extends BackgroundService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -196,7 +199,7 @@ public class MyService extends BackgroundService {
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setParams(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                setParams(_Cookie, jsonResult.getString("cookie"));
@@ -206,7 +209,7 @@ public class MyService extends BackgroundService {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 		
@@ -227,7 +230,7 @@ public class MyService extends BackgroundService {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 		
@@ -236,7 +239,7 @@ public class MyService extends BackgroundService {
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -249,7 +252,7 @@ public class MyService extends BackgroundService {
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -266,7 +269,7 @@ public class MyService extends BackgroundService {
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -275,7 +278,7 @@ public class MyService extends BackgroundService {
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -284,7 +287,7 @@ public class MyService extends BackgroundService {
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 		
@@ -297,7 +300,7 @@ public class MyService extends BackgroundService {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -305,7 +308,7 @@ public class MyService extends BackgroundService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -316,7 +319,7 @@ public class MyService extends BackgroundService {
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setParams(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                int RetrievedData = jsonResult.getInt("RetrievedData");
@@ -330,7 +333,7 @@ public class MyService extends BackgroundService {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -366,7 +369,7 @@ public class MyService extends BackgroundService {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 	}
@@ -400,7 +403,7 @@ public class MyService extends BackgroundService {
 				}
 			}
 		} catch (JSONException e) {
-			setParams(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 		}
 		
 		return result;	
