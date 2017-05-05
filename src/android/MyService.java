@@ -330,7 +330,7 @@ public class MyService extends BackgroundService {
 	}
 
 	private void CreateNotification(int notificationId, String contentMsg) {
-			
+			try {
 		Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		
 		Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Result.class);
@@ -344,18 +344,24 @@ public class MyService extends BackgroundService {
 		sbMsg.append(")");
 		sbMsg.append(contentMsg);
 		
-		 int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "mipmap", "com.epsilonnet.pylonmanagement" );
+		 int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
 		 
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
 				.setSound(uri)
 				.setSmallIcon(resourceID)
 				.setContentTitle("Pylon Management")
-				.setContentText(sbMsg.toString())
+				.setContentText(contentMsg)
 				.setContentIntent(resultPendingIntent);
 
 		NotificationManager mNotifyMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(notificationId, mBuilder.build());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			setParams(DateTimeNow(), e.getMessage());
+			return ;
+		}
 	}
 	
 	
