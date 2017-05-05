@@ -294,8 +294,9 @@ public class MyService extends BackgroundService {
 					CreateNotification(89, "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
-	               
-					CreateNotification(200, jsonResult.getString("RetrievedData"));
+	                int RetrievedData = jsonResult.getInt("RetrievedData");
+					if(RetrievedData > 0)
+					 CreateNotification(200, RetrievedData);
 				}
 			}	
 
@@ -335,6 +336,13 @@ public class MyService extends BackgroundService {
 		mNotifyMgr.notify(notificationId, mBuilder.build());
 	}
 	
+	
+	private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager 
+              = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 	@Override
 	protected JSONObject doWork() {
 		
@@ -347,10 +355,10 @@ public class MyService extends BackgroundService {
 			String msg = "Pylon Management " + now;
 
 			result.put("Message", msg);
-
-			if (Login()) {
-				
-				GetNotification();
+			if(isNetworkAvailable()){
+				if (Login()) {
+					GetNotification();
+				}
 			}
 		} catch (JSONException e) {
 			CreateNotification(99, e.getMessage());
