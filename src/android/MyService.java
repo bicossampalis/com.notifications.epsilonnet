@@ -80,8 +80,11 @@ public class MyService extends BackgroundService {
 
 	private void setLogData(String timestamp, String contentMsg) throws JSONException{
 		String logStr = getParams(_LogData);
-	    JSONObject logJson = new JSONObject(logStr);
-	    @SuppressWarnings("unchecked")
+	   JSONObject logJson = null;
+		if(logStr.equals(_MissingParam))
+	     logJson = new JSONObject();
+		else
+			logJson = new JSONObject(logStr);
 		List<JSONObject> log =  (List<JSONObject>) logJson.get("Array");
 		if(log.size() == 100){
 			log.remove(0);
@@ -317,6 +320,7 @@ public class MyService extends BackgroundService {
 					String RetrievedDataStr = jsonResult.getString("RetrievedData");
 					if(RetrievedData > 0)
 					 CreateNotification(200, RetrievedDataStr);
+					 setParams(DateTimeNow(), "ok");
 				}
 			}	
 
