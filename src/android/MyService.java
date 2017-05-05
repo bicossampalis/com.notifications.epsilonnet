@@ -1,18 +1,12 @@
 package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-
 import android.app.Activity;
 import android.content.Intent;
-
 import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,13 +17,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-
-import com.red_folder.phonegap.plugin.backgroundservice.sample.ResultActivity;
-
 import android.util.Log;
-
+import com.red_folder.phonegap.plugin.backgroundservice.sample.ResultActivity;
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,6 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MyService extends BackgroundService {
@@ -51,8 +43,7 @@ public class MyService extends BackgroundService {
 	private final static String _RoleID = "RoleID";
 	private final static String _LoginData = "LoginData";
 	private final static String _Https = "Https";
-	
-	
+    private final static String _Uuid = "Uuid";
 	private final static String _LogData = "LogData";
 	
 	public String getParams(String key) {
@@ -197,6 +188,127 @@ public class MyService extends BackgroundService {
 		
 		return true;
 	}
+	
+	private void GetNotification() {
+		
+		String url = GetUrl("pdaMGNotifyForPendingApprovals");
+		String cookie = getParams(_Cookie);
+		if (url.equals(_MissingParam) || cookie.equals(_MissingParam))
+			return false;
+		
+		
+		URL obj = null;
+		try {
+			obj = new URL(url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			CreateNotification(98, e.getMessage());
+			return false;
+		}
+		
+		HttpURLConnection con = null;
+		try {
+			con = (HttpURLConnection)obj.openConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(97, e.getMessage());
+			return false;
+		}
+
+		try {
+	 
+			 con.setDoOutput(true);
+			 con.setDoInput(true);
+			 con.setRequestProperty("Content-Type", "application/json");
+			 con.setRequestProperty("Accept", "application/json");
+			 con.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+			CreateNotification(96, e.getMessage());
+			return false;
+		}
+
+		OutputStreamWriter wr;
+		try {
+		
+			JSONObject inputParams = new JSONObject();
+			inputParams.put("cookie", getParams(_Cookie));
+			inputParams.put("uuid", getParams(_Uuid));
+			inputParams.put("roleid", getParams(_RoleID));
+		
+			wr = new OutputStreamWriter(con.getOutputStream());
+			wr.write(inputParams.toString());
+			wr.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(95, e.getMessage());
+			return false;
+		}
+
+		int responseCode = 0;
+		try {
+			responseCode = con.getResponseCode();
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(94, e.getMessage());
+			return false;
+		}
+
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(93, e.getMessage());
+			return false;
+		}
+		
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(92, e.getMessage());
+			return false;
+		}
+
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			CreateNotification(91, e.getMessage());
+			return false;
+		}
+
+		try {
+			JSONObject jsonResponse = new JSONObject(response.toString());
+
+			if (jsonResponse.has("Status")){
+				
+				String status = jsonResponse.getString("Status");
+				if (status.equals("ERROR")){
+					CreateNotification(89, "Error : " + jsonResponse.getString("Error"));
+				} else {
+					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
+	               
+					CreateNotification(200, jsonResult.getString("RetrievedData"));
+				}
+			}	
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			CreateNotification(90, e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
 
 	private void CreateNotification(int notificationId, String contentMsg) {
 			
@@ -240,7 +352,7 @@ public class MyService extends BackgroundService {
 
 			if (Login()) {
 				
-				CreateNotification(200, msg + "-" + getParams(_IPAddress));
+				GetNotification();
 			}
 		} catch (JSONException e) {
 			CreateNotification(99, e.getMessage());
@@ -260,6 +372,8 @@ public class MyService extends BackgroundService {
 			result.put(_RoleID, getParams(_RoleID));
 			result.put(_LoginData, getParams(_LoginData));
 			result.put(_Https, getParams(_Https));
+			result.put(_Uuid, getParams(_Uuid));
+		    result.put(_LogData, getParams(_LogData));
 		} catch (JSONException e) {
 		}
 		
@@ -287,6 +401,9 @@ public class MyService extends BackgroundService {
 
 			if (config.has(_Https))
 				setParams(_Https, config.getString(_Https));
+
+			if (config.has(_Uuid))
+				setParams(_Uuid, config.getString(_Uuid));
 
 		} catch (JSONException e) {
 		}
