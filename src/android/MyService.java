@@ -76,21 +76,36 @@ public class MyService extends BackgroundService {
 		return url;
 	}
 
+	private static void setLogData(String timestamp, String contentMsg) throws JSONException{
+		String logStr = getParams(_LogData);
+	    JSONObject logJson = new JSONObject(logStr);
+	    @SuppressWarnings("unchecked")
+		List<JSONObject> log =  (List<JSONObject>) logJson.get("Array");
+		if(log.size() == 100){
+			log.remove(0);
+		}
+		JSONObject newJson = new JSONObject();
+		newJson.put("TimeStamp", timestamp);
+		newJson.put("Message", contentMsg);
+		log.add(newJson);
+		JSONObject newLogJson = new JSONObject();
+		newLogJson.put("Array", log);
+		setParams(_LogData,newLogJson.toString());
+		}
 	private boolean Login() {
 		
 		String url = GetUrl("secureloginculture2");
 		String loginData = getParams(_LoginData);
 		if (url.equals(_MissingParam) || loginData.equals(_MissingParam))
 			return false;
-		
-		
+
 		URL obj = null;
 		try {
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			CreateNotification(98, e.getMessage());
+			setLogData(98, e.getMessage());
 			return false;
 		}
 		
@@ -99,7 +114,7 @@ public class MyService extends BackgroundService {
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(97, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -112,7 +127,7 @@ public class MyService extends BackgroundService {
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			CreateNotification(96, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -123,7 +138,7 @@ public class MyService extends BackgroundService {
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(95, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -132,7 +147,7 @@ public class MyService extends BackgroundService {
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(94, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -141,7 +156,7 @@ public class MyService extends BackgroundService {
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(93, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 		
@@ -154,7 +169,7 @@ public class MyService extends BackgroundService {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(92, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -162,7 +177,7 @@ public class MyService extends BackgroundService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(91, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 
@@ -173,7 +188,7 @@ public class MyService extends BackgroundService {
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					CreateNotification(89, "Error : " + jsonResponse.getString("Error"));
+					setParams(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                setParams(_Cookie, jsonResult.getString("cookie"));
@@ -183,7 +198,7 @@ public class MyService extends BackgroundService {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			CreateNotification(90, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return false;
 		}
 		
@@ -204,7 +219,7 @@ public class MyService extends BackgroundService {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			CreateNotification(98, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 		
@@ -213,7 +228,7 @@ public class MyService extends BackgroundService {
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(97, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -226,7 +241,7 @@ public class MyService extends BackgroundService {
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			CreateNotification(96, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -243,7 +258,7 @@ public class MyService extends BackgroundService {
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(95, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -252,7 +267,7 @@ public class MyService extends BackgroundService {
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(94, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -261,7 +276,7 @@ public class MyService extends BackgroundService {
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(93, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 		
@@ -274,7 +289,7 @@ public class MyService extends BackgroundService {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(92, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -282,7 +297,7 @@ public class MyService extends BackgroundService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			CreateNotification(91, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -293,7 +308,7 @@ public class MyService extends BackgroundService {
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					CreateNotification(89, "Error : " + jsonResponse.getString("Error"));
+					setParams(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                int RetrievedData = jsonResult.getInt("RetrievedData");
@@ -306,7 +321,7 @@ public class MyService extends BackgroundService {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			CreateNotification(90, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 			return ;
 		}
 
@@ -330,7 +345,7 @@ public class MyService extends BackgroundService {
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
 				.setSound(uri)
-				.setSmallIcon(R.mipmap.sym_def_app_icon)
+				.setSmallIcon(R.mipmap.ic_launcher)
 				.setContentTitle("Pylon Management")
 				.setContentText(sbMsg.toString())
 				.setContentIntent(resultPendingIntent);
@@ -353,9 +368,8 @@ public class MyService extends BackgroundService {
 
 		try {
 
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-			String now = df.format(new Date(System.currentTimeMillis())); 
-			String msg = "Pylon Management " + now;
+			
+			String msg = "Pylon Management " + DateTimeNow();
 
 			result.put("Message", msg);
 			if(isNetworkAvailable()){
@@ -364,10 +378,16 @@ public class MyService extends BackgroundService {
 				}
 			}
 		} catch (JSONException e) {
-			CreateNotification(99, e.getMessage());
+			setParams(DateTimeNow(), e.getMessage());
 		}
 		
 		return result;	
+	}
+	
+	private String DateTimeNow(){
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+		String now = df.format(new Date(System.currentTimeMillis())); 
+		return now;
 	}
 
 	@Override
