@@ -370,17 +370,6 @@ public class MyService extends BackgroundService {
 		String now = df.format(new Date(System.currentTimeMillis())); 
 		return now;
 	}
-	public int getSmallIcon () {
-        String icon = options.optString("smallIcon", "");
-
-        int resId = assets.getResIdForDrawable(icon);
-
-        if (resId == 0) {
-            resId = android.R.drawable.screen_background_dark;
-        }
-
-        return resId;
-    }
 	@Override
 	protected JSONObject doWork() {
 		
