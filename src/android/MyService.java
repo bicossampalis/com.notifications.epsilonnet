@@ -295,8 +295,9 @@ public class MyService extends BackgroundService {
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                int RetrievedData = jsonResult.getInt("RetrievedData");
+					String RetrievedDataStr = jsonResult.getString("RetrievedData");
 					if(RetrievedData > 0)
-					 CreateNotification(200, RetrievedData);
+					 CreateNotification(200, RetrievedDataStr);
 				}
 			}	
 
