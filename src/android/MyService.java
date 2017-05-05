@@ -343,11 +343,13 @@ public class MyService extends BackgroundService {
 		sbMsg.append(notificationId);
 		sbMsg.append(")");
 		sbMsg.append(contentMsg);
+		
+		 int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "mipmap", "com.epsilonnet.pylonmanagement" );
 		 
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
 				.setSound(uri)
-				.setSmallIcon(R.mipmap.ic_launcher)
+				.setSmallIcon(resourceID)
 				.setContentTitle("Pylon Management")
 				.setContentText(sbMsg.toString())
 				.setContentIntent(resultPendingIntent);
@@ -368,6 +370,17 @@ public class MyService extends BackgroundService {
 		String now = df.format(new Date(System.currentTimeMillis())); 
 		return now;
 	}
+	public int getSmallIcon () {
+        String icon = options.optString("smallIcon", "");
+
+        int resId = assets.getResIdForDrawable(icon);
+
+        if (resId == 0) {
+            resId = android.R.drawable.screen_background_dark;
+        }
+
+        return resId;
+    }
 	@Override
 	protected JSONObject doWork() {
 		
