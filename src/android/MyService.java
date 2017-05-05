@@ -78,7 +78,7 @@ public class MyService extends BackgroundService {
 		return url;
 	}
 
-	private static void setLogData(String timestamp, String contentMsg) throws JSONException{
+	private void setLogData(String timestamp, String contentMsg) throws JSONException{
 		String logStr = getParams(_LogData);
 	    JSONObject logJson = new JSONObject(logStr);
 	    @SuppressWarnings("unchecked")
