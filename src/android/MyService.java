@@ -80,9 +80,12 @@ public class MyService extends BackgroundService {
 
 	private void setLogData(String timestamp, String contentMsg) throws JSONException{
 		String logStr = getParams(_LogData);
-	   JSONObject logJson = null;
-		if(logStr.equals(_MissingParam))
-	     logJson = new JSONObject();
+	  JSONObject logJson = null;
+		if(logStr.equals(_MissingParam)){	   
+			logJson = new JSONObject();
+			List<JSONObject> logEmpty = new ArrayList<JSONObject>();
+			logJson.put("Array", logEmpty);
+		}
 		else
 			logJson = new JSONObject(logStr);
 		List<JSONObject> log =  (List<JSONObject>) logJson.get("Array");
