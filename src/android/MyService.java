@@ -162,7 +162,7 @@ public class MyService extends BackgroundService {
 			CreateNotification(92, e.getMessage());
 			return;
 		}
-		
+
 		try {
 			in.close();
 		} catch (IOException e) {
@@ -173,25 +173,25 @@ public class MyService extends BackgroundService {
 
 		try {
 			JSONObject jsonResponse = new JSONObject(response.toString());
-			
+
 			if (jsonResponse.has("Status")){
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					System.out.println("Error : " + jsonResponse.getString("Error"));
+					CreateNotification(89, "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
-	                setParams(_Cookie, jsonResponse.getString("cookie"));
+	                setParams(_Cookie, jsonResult.getString("cookie"));
 				}
 			}	
-			
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			CreateNotification(90, e.getMessage());
 		}
 	}
-	
+
 	private void CreateNotification(int notificationId, String contentMsg) {
 			
 		Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -205,12 +205,12 @@ public class MyService extends BackgroundService {
 		sbMsg.append("(");
 		sbMsg.append(notificationId);
 		sbMsg.append(")");
-		sbMsg.append(notificationId);
+		sbMsg.append(contentMsg);
 		 
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
 				.setSound(uri)
-				//.setSmallIcon(R.mipmap-hdpi-v4.icon)
+				.setSmallIcon(R.mipmap.sym_def_app_icon)
 				.setContentTitle("Pylon Management")
 				.setContentText(sbMsg.toString())
 				.setContentIntent(resultPendingIntent);
@@ -231,10 +231,10 @@ public class MyService extends BackgroundService {
 			String msg = "Pylon Management " + now;
 
 			result.put("Message", msg);
-			
+
 			Login();
-			
-			CreateNotification(100, msg + getParams(_IPAddress));
+
+			CreateNotification(200, msg + getParams(_IPAddress));
 		} catch (JSONException e) {
 			CreateNotification(99, e.getMessage());
 		}
