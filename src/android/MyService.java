@@ -52,6 +52,9 @@ public class MyService extends BackgroundService {
 	private final static String _LoginData = "LoginData";
 	private final static String _Https = "Https";
 	
+	
+	private final static String _LogData = "LogData";
+	
 	public String getParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);  
 		return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);	
@@ -81,12 +84,12 @@ public class MyService extends BackgroundService {
 		return url;
 	}
 
-	private void Login() {
+	private boolean Login() {
 		
 		String url = GetUrl("secureloginculture2");
 		String loginData = getParams(_LoginData);
 		if (url.equals(_MissingParam) || loginData.equals(_MissingParam))
-			return;
+			return false;
 		
 		
 		URL obj = null;
@@ -96,7 +99,7 @@ public class MyService extends BackgroundService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			CreateNotification(98, e.getMessage());
-			return;
+			return false;
 		}
 		
 		HttpURLConnection con = null;
@@ -105,7 +108,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(97, e.getMessage());
-			return;
+			return false;
 		}
 
 		try {
@@ -118,7 +121,7 @@ public class MyService extends BackgroundService {
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 			CreateNotification(96, e.getMessage());
-			return;
+			return false;
 		}
 
 		OutputStreamWriter wr;
@@ -129,7 +132,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(95, e.getMessage());
-			return;
+			return false;
 		}
 
 		int responseCode = 0;
@@ -138,7 +141,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(94, e.getMessage());
-			return;
+			return false;
 		}
 
 		BufferedReader in = null;
@@ -147,7 +150,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(93, e.getMessage());
-			return;
+			return false;
 		}
 		
 		String inputLine;
@@ -160,7 +163,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(92, e.getMessage());
-			return;
+			return false;
 		}
 
 		try {
@@ -168,7 +171,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(91, e.getMessage());
-			return;
+			return false;
 		}
 
 		try {
@@ -189,7 +192,10 @@ public class MyService extends BackgroundService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			CreateNotification(90, e.getMessage());
+			return false;
 		}
+		
+		return true;
 	}
 
 	private void CreateNotification(int notificationId, String contentMsg) {
@@ -223,7 +229,7 @@ public class MyService extends BackgroundService {
 	protected JSONObject doWork() {
 		
 		JSONObject result = new JSONObject();
-		
+
 		try {
 
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
@@ -232,9 +238,10 @@ public class MyService extends BackgroundService {
 
 			result.put("Message", msg);
 
-			Login();
-
-			CreateNotification(200, msg + getParams(_IPAddress));
+			if (Login()) {
+				
+				CreateNotification(200, msg + "-" + getParams(_IPAddress));
+			}
 		} catch (JSONException e) {
 			CreateNotification(99, e.getMessage());
 		}
