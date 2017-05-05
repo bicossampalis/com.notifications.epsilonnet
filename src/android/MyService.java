@@ -18,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import com.red_folder.phonegap.plugin.backgroundservice.sample.ResultActivity;
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 import java.io.BufferedReader;
 import java.io.IOException;
