@@ -31,6 +31,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyService extends BackgroundService {
@@ -105,7 +107,7 @@ public class MyService extends BackgroundService {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setLogData(98, e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage());
 			return false;
 		}
 		
@@ -361,6 +363,11 @@ public class MyService extends BackgroundService {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+	private String DateTimeNow(){
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+		String now = df.format(new Date(System.currentTimeMillis())); 
+		return now;
+	}
 	@Override
 	protected JSONObject doWork() {
 		
@@ -384,11 +391,7 @@ public class MyService extends BackgroundService {
 		return result;	
 	}
 	
-	private String DateTimeNow(){
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-		String now = df.format(new Date(System.currentTimeMillis())); 
-		return now;
-	}
+	
 
 	@Override
 	protected JSONObject getConfig() {
