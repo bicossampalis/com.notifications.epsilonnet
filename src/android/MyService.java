@@ -49,64 +49,68 @@ private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
 
-public String getParams(String key) {
-SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);
-}
+	public String getParams(String key) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);
+	}
 
-public void setParams(String key, String value) {
-SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-SharedPreferences.Editor editor = sharedPrefs.edit();
-editor.putString(this.getClass().getName() + "." + key, value);
-editor.commit();
-}
+	public void setParams(String key, String value) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = sharedPrefs.edit();
+		editor.putString(this.getClass().getName() + "." + key, value);
+		editor.commit();
+	}
 
-private String GetUrl(String operation) {
+	private String GetUrl(String operation) {
 
-String ipAddress = getParams(_IPAddress);
-String port = getParams(_Port);
-String https = getParams(_Https);
+		String ipAddress = getParams(_IPAddress);
+		String port = getParams(_Port);
+		String https = getParams(_Https);
 
-if (ipAddress.equals(_MissingParam) || port.equals(_MissingParam) || https.equals(_MissingParam))
-return _MissingParam;
+		if (ipAddress.equals(_MissingParam) || port.equals(_MissingParam) || https.equals(_MissingParam))
+		return _MissingParam;
 
-String url = "http";
-if (https.equals("1"))
-url = "https";
+		String url = "http";
+		if (https.equals("1"))
+			url = "https";
 
-url += "://" + ipAddress + ":" + port + "/hercjson/" + operation;
-return url;
-}
+		url += "://" + ipAddress + ":" + port + "/hercjson/" + operation;
+		return url;
+	}
 
-private void setLogData(String timestamp, String contentMsg) {
-try{
-String logStr = getParams(_LogData);
-JSONObject logJson = null;
-if(logStr.equals(_MissingParam)){
-logJson = new JSONObject();
-List<JSONObject>
-  logEmpty = new ArrayList<JSONObject>
-    ();
-    logJson.put("Array", logEmpty);
-    }
-    else
-    logJson = new JSONObject(logStr);
-    List<JSONObject>
-      log =  (List<JSONObject>) logJson.get("Array");
-		if(log.size() == 100){
-			log.remove(0);
-		}
-		JSONObject newJson = new JSONObject();
-		newJson.put("TimeStamp", timestamp);
-		newJson.put("Message", contentMsg);
-		log.add(newJson);
-		JSONObject newLogJson = new JSONObject();
-		newLogJson.put("Array", log);
-		setParams(_LogData,newLogJson.toString());
-		} catch (JSONException e) {
+	private void setLogData(String timestamp, String contentMsg) {
+		
+		try{
+			String logStr = getParams(_LogData);
+			JSONObject logJson = null;
 			
+			if(logStr.equals(_MissingParam)){
+				logJson = new JSONObject();
+				List<JSONObject> logEmpty = new ArrayList<JSONObject>();
+				logJson.put("Array", logEmpty);
+			} else
+				logJson = new JSONObject(logStr);
+			
+			List<JSONObject> log =  (List<JSONObject>)logJson.get("Array");
+			if(log.size() == 100){
+				log.remove(0);
+			}
+			JSONObject newJson = new JSONObject();
+			newJson.put("TimeStamp", timestamp);
+			newJson.put("Message", contentMsg);
+			log.add(newJson);
+			JSONObject newLogJson = new JSONObject();
+			newLogJson.put("Array", log);
+			setParams(_LogData,newLogJson.toString());
+		} catch (JSONException e) {
+			JSONObject errJSONObj = new JSONObject();
+			errJSONObj.put("Message", e.getMessage());
+			setErrorLatestResult(errJSONObj);
 		}
-		}
+
+		return errJSONObj;
+	}
+	
 	private boolean Login() throws JSONException {
 		
 		String url = GetUrl("secureloginculture2");
@@ -477,9 +481,8 @@ List<JSONObject>
 	}
 
 	@Override
-	protected void onTimerDisabled() {
-		// TODO Auto-generated method stub
-		
+	protected void setErrorLatestResult(JSONObject value) {
+		super.setErrorLatestResult(value);
 	}
 }
 
