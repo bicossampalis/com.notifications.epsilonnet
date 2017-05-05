@@ -94,7 +94,7 @@ public class MyService extends BackgroundService {
 		newLogJson.put("Array", log);
 		setParams(_LogData,newLogJson.toString());
 		}
-	private boolean Login() {
+	private boolean Login() throws JSONException {
 		
 		String url = GetUrl("secureloginculture2");
 		String loginData = getParams(_LoginData);
