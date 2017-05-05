@@ -107,8 +107,6 @@ private final static String _LogData = "LogData";
 			errJSONObj.put("Message", e.getMessage());
 			setErrorLatestResult(errJSONObj);
 		}
-
-		return errJSONObj;
 	}
 	
 	private boolean Login() throws JSONException {
@@ -389,11 +387,13 @@ private final static String _LogData = "LogData";
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+	
 	private String DateTimeNow(){
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 		String now = df.format(new Date(System.currentTimeMillis())); 
 		return now;
 	}
+	
 	@Override
 	protected JSONObject doWork() {
 		
@@ -416,8 +416,6 @@ private final static String _LogData = "LogData";
 		
 		return result;	
 	}
-	
-	
 
 	@Override
 	protected JSONObject getConfig() {
@@ -481,8 +479,8 @@ private final static String _LogData = "LogData";
 	}
 
 	@Override
-	protected void setErrorLatestResult(JSONObject value) {
-		super.setErrorLatestResult(value);
+	protected void setLatestResult(JSONObject value) {
+		super.setLatestResult(value);
 	}
 }
 
