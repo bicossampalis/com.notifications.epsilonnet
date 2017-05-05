@@ -188,7 +188,7 @@ public class MyService extends BackgroundService {
 		return true;
 	}
 	
-	private void GetNotification() {
+	private void GetNotification() throws JSONException  {
 		
 		String url = GetUrl("pdaMGNotifyForPendingApprovals");
 		String cookie = getParams(_Cookie);
