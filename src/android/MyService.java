@@ -194,7 +194,7 @@ public class MyService extends BackgroundService {
 		String url = GetUrl("pdaMGNotifyForPendingApprovals");
 		String cookie = getParams(_Cookie);
 		if (url.equals(_MissingParam) || cookie.equals(_MissingParam))
-			return false;
+			return ;
 		
 		
 		URL obj = null;
@@ -204,7 +204,7 @@ public class MyService extends BackgroundService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			CreateNotification(98, e.getMessage());
-			return false;
+			return ;
 		}
 		
 		HttpURLConnection con = null;
@@ -213,7 +213,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(97, e.getMessage());
-			return false;
+			return ;
 		}
 
 		try {
@@ -226,7 +226,7 @@ public class MyService extends BackgroundService {
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 			CreateNotification(96, e.getMessage());
-			return false;
+			return ;
 		}
 
 		OutputStreamWriter wr;
@@ -243,7 +243,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(95, e.getMessage());
-			return false;
+			return ;
 		}
 
 		int responseCode = 0;
@@ -252,7 +252,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(94, e.getMessage());
-			return false;
+			return ;
 		}
 
 		BufferedReader in = null;
@@ -261,7 +261,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(93, e.getMessage());
-			return false;
+			return ;
 		}
 		
 		String inputLine;
@@ -274,7 +274,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(92, e.getMessage());
-			return false;
+			return ;
 		}
 
 		try {
@@ -282,7 +282,7 @@ public class MyService extends BackgroundService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			CreateNotification(91, e.getMessage());
-			return false;
+			return ;
 		}
 
 		try {
@@ -304,10 +304,9 @@ public class MyService extends BackgroundService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			CreateNotification(90, e.getMessage());
-			return false;
+			return ;
 		}
-		
-		return true;
+
 	}
 
 	private void CreateNotification(int notificationId, String contentMsg) {
