@@ -49,18 +49,6 @@ private final static String _LoginData = "LoginData";
 private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
-private final static String _LogHistoryNum = "LogHistoryNum";
-
-	private boolean isInteger(String s) {
-		try { 
-			Integer.parseInt(s); 
-		} catch(NumberFormatException e) { 
-			return false; 
-		} catch(NullPointerException e) {
-			return false;
-		}
-		return true;
-	}
 
 	public String getParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -92,12 +80,6 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 	}
 
 	private void setLogData(String timestamp, String contentMsg) {
-		/*
-		int logHistoryNum = 100;
-		String strLogHistoryNum = getParams(_LogHistoryNum);
-		if (isInteger(strLogHistoryNum) && !strLogHistoryNum.equals(_MissingParam))
-			logHistoryNum = Integer.parseInt(strLogHistoryNum);
-		*/
 		try {
 			String logStr = getParams(_LogData);
 			JSONObject logJson = null;
@@ -451,7 +433,6 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 			result.put(_Https, getParams(_Https));
 			result.put(_Uuid, getParams(_Uuid));
 		    result.put(_LogData, getParams(_LogData));
-			result.put(_LogHistoryNum, getParams(_LogHistoryNum));
 		} catch (JSONException e) {
 		}
 		
@@ -485,9 +466,6 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 				
 			if (config.has(_LogData))
 				setParams(_LogData, "");
-			
-			if (config.has(_LogHistoryNum))
-				setParams(_LogHistoryNum, config.getString(_LogHistoryNum));
 
 		} catch (JSONException e) {
 		}
