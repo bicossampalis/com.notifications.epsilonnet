@@ -101,7 +101,7 @@ private final static String _LogData = "LogData";
 			newJson.put("Message", contentMsg);
 			log.put(newJson);
 			JSONObject newLogJson = new JSONObject();
-			newLogJson.put("Array", log);
+			newLogJson.put("Data", log);
 			setParams(_LogData,newLogJson.toString());
 		} catch (JSONException e) {
 			JSONObject errJSONObj = new JSONObject();
