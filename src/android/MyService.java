@@ -472,7 +472,7 @@ private final static String _LogData = "LogData";
 				setParams(_Uuid, config.getString(_Uuid));
 				
 			if (config.has(_LogData))
-				setParams(_LogData, "");
+				setParams(_LogData, _MissingParam);
 
 
 		} catch (JSONException e) {
