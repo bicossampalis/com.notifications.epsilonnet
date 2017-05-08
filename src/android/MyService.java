@@ -106,7 +106,7 @@ private final static String _LogData = "LogData";
 		} catch (JSONException e) {
 			JSONObject errJSONObj = new JSONObject();
 			errJSONObj.put("Message", e.getMessage());
-			setErrorLatestResult(errJSONObj);
+			
 		}
 	}
 	
