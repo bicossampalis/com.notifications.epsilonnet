@@ -335,9 +335,8 @@ private final static String _LogData = "LogData";
 					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
-	                int RetrievedData = jsonResult.getInt("RetrievedData");
 					String RetrievedDataStr = jsonResult.getString("RetrievedData");
-					if(RetrievedData > 0)
+					if(RetrievedDataStr != null)
 					 CreateNotification(200, RetrievedDataStr);
 					 setLogData(DateTimeNow(), "ok");
 				}
