@@ -451,6 +451,7 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 			result.put(_Https, getParams(_Https));
 			result.put(_Uuid, getParams(_Uuid));
 		    result.put(_LogData, getParams(_LogData));
+			result.put(_LogHistoryNum, getParams(_LogHistoryNum));
 		} catch (JSONException e) {
 		}
 		
