@@ -105,7 +105,7 @@ private final static String _LogData = "LogData";
 			setParams(_LogData,newLogJson.toString());
 		} catch (JSONException e) {
 			JSONObject errJSONObj = new JSONObject();
-			errJSONObj.put("Message", e.getMessage());
+			
 			
 		}
 	}
