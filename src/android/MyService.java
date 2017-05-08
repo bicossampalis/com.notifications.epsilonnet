@@ -92,12 +92,12 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 	}
 
 	private void setLogData(String timestamp, String contentMsg) {
-
+		/*
 		int logHistoryNum = 100;
 		String strLogHistoryNum = getParams(_LogHistoryNum);
 		if (isInteger(strLogHistoryNum) && !strLogHistoryNum.equals(_MissingParam))
 			logHistoryNum = Integer.parseInt(strLogHistoryNum);
-
+		*/
 		try {
 			String logStr = getParams(_LogData);
 			JSONObject logJson = null;
@@ -111,7 +111,7 @@ private final static String _LogHistoryNum = "LogHistoryNum";
 			
 			JSONArray log =  (JSONArray)logJson.get("Data");
 			
-			if (log.length() == logHistoryNum) {
+			if (log.length() == 10) {
 				log.remove(0);
 			}
 			
