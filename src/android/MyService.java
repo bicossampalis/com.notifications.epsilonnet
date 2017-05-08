@@ -1,5 +1,6 @@
 package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
+import org.json.simple.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.media.Ringtone;
@@ -86,19 +87,19 @@ private final static String _LogData = "LogData";
 			
 			if(logStr.equals(_MissingParam)){
 				logJson = new JSONObject();
-				List<JSONObject> logEmpty = new ArrayList<JSONObject>();
-				logJson.put("Array", logEmpty);
+				JSONArray logEmpty = new JSONArray();
+				logJson.put("Data", logEmpty);
 			} else
 				logJson = new JSONObject(logStr);
 			
-			List<JSONObject> log =  (List<JSONObject>)logJson.get("Array");
-			if(log.size() == 100){
+			JSONArray log =  (JSONArray)logJson.get("Data");
+			if(log.length() == 100){
 				log.remove(0);
 			}
 			JSONObject newJson = new JSONObject();
 			newJson.put("TimeStamp", timestamp);
 			newJson.put("Message", contentMsg);
-			log.add(newJson);
+			log.put(newJson);
 			JSONObject newLogJson = new JSONObject();
 			newLogJson.put("Array", log);
 			setParams(_LogData,newLogJson.toString());
@@ -109,7 +110,7 @@ private final static String _LogData = "LogData";
 		}
 	}
 	
-	private boolean Login() throws JSONException {
+	private boolean Login() {
 		
 		String url = GetUrl("secureloginculture2");
 		String loginData = getParams(_LoginData);
@@ -222,7 +223,7 @@ private final static String _LogData = "LogData";
 		return true;
 	}
 	
-	private void GetNotification() throws JSONException  {
+	private void GetNotification() {
 		
 		String url = GetUrl("pdaMGNotifyForPendingApprovals");
 		String cookie = getParams(_Cookie);
@@ -262,14 +263,20 @@ private final static String _LogData = "LogData";
 			return ;
 		}
 
-		OutputStreamWriter wr;
+
+		JSONObject inputParams = new JSONObject();
 		try {
-		
-			JSONObject inputParams = new JSONObject();
 			inputParams.put("cookie", getParams(_Cookie));
 			inputParams.put("uuid", getParams(_Uuid));
 			inputParams.put("roleid", getParams(_RoleID));
-		
+		} catch (JSONException e) {
+			e.printStackTrace();
+			setLogData(DateTimeNow(), e.getMessage());
+			return;
+		}
+
+		OutputStreamWriter wr;
+		try {
 			wr = new OutputStreamWriter(con.getOutputStream());
 			wr.write(inputParams.toString());
 			wr.flush();
@@ -332,7 +339,7 @@ private final static String _LogData = "LogData";
 					String RetrievedDataStr = jsonResult.getString("RetrievedData");
 					if(RetrievedData > 0)
 					 CreateNotification(200, RetrievedDataStr);
-					 setParams(DateTimeNow(), "ok");
+					 setLogData(DateTimeNow(), "ok");
 				}
 			}	
 
@@ -360,12 +367,12 @@ private final static String _LogData = "LogData";
 		sbMsg.append(")");
 		sbMsg.append(contentMsg);
 		
-		 int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
+		// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
 		 
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
 				.setSound(uri)
-				.setSmallIcon(resourceID)
+				.setSmallIcon(R.drawable.ic_dialog_info)
 				.setContentTitle("Pylon Management")
 				.setContentText(contentMsg)
 				.setContentIntent(resultPendingIntent);
