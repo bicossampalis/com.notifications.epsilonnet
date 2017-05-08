@@ -336,9 +336,12 @@ private final static String _LogData = "LogData";
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 					String RetrievedDataStr = jsonResult.getString("RetrievedData");
-					if(RetrievedDataStr != null && RetrievedDataStr.length() != 0)
+					if(RetrievedDataStr != null && RetrievedDataStr.length() != 0){
 					 CreateNotification(200, RetrievedDataStr);
-					setLogData(DateTimeNow(), "ok");
+					 setLogData(DateTimeNow(), RetrievedDataStr);
+					}else
+					 setLogData(DateTimeNow(), "No Approvals Found");
+					
 				}
 			}	
 
