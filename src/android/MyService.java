@@ -49,6 +49,18 @@ private final static String _LoginData = "LoginData";
 private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
+private final static String _LogHistoryNum = "LogHistoryNum";
+
+	private boolean isInteger(String s) {
+		try { 
+			Integer.parseInt(s); 
+		} catch(NumberFormatException e) { 
+			return false; 
+		} catch(NullPointerException e) {
+			return false;
+		}
+		return true;
+	}
 
 	public String getParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -80,8 +92,13 @@ private final static String _LogData = "LogData";
 	}
 
 	private void setLogData(String timestamp, String contentMsg) {
-		
-		try{
+
+		int logHistoryNum = 100;
+		String strLogHistoryNum = getParams(_LogHistoryNum);
+		if (isInteger(strLogHistoryNum) && !strLogHistoryNum.equals(_MissingParam))
+			logHistoryNum = Integer.parseInt(strLogHistoryNum);
+
+		try {
 			String logStr = getParams(_LogData);
 			JSONObject logJson = null;
 			
@@ -93,20 +110,22 @@ private final static String _LogData = "LogData";
 				logJson = new JSONObject(logStr);
 			
 			JSONArray log =  (JSONArray)logJson.get("Data");
-			if(log.length() == 100){
+			
+			if (log.length() == logHistoryNum) {
 				log.remove(0);
 			}
+			
 			JSONObject newJson = new JSONObject();
 			newJson.put("TimeStamp", timestamp);
 			newJson.put("Message", contentMsg);
 			log.put(newJson);
+			
 			JSONObject newLogJson = new JSONObject();
 			newLogJson.put("Data", log);
-			setParams(_LogData,newLogJson.toString());
+			setParams(_LogData, newLogJson.toString());
+			
 		} catch (JSONException e) {
 			JSONObject errJSONObj = new JSONObject();
-			
-			
 		}
 	}
 	
@@ -121,7 +140,6 @@ private final static String _LogData = "LogData";
 		try {
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			setLogData(DateTimeNow(), e.getMessage());
 			return false;
@@ -231,12 +249,10 @@ private final static String _LogData = "LogData";
 		if (url.equals(_MissingParam) || cookie.equals(_MissingParam))
 			return ;
 		
-		
 		URL obj = null;
 		try {
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			setLogData(DateTimeNow(), e.getMessage());
 			return ;
@@ -263,7 +279,6 @@ private final static String _LogData = "LogData";
 			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
-
 
 		JSONObject inputParams = new JSONObject();
 		try {
@@ -335,65 +350,61 @@ private final static String _LogData = "LogData";
 				if (status.equals("ERROR")){
 					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
 				} else {
+					
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 					String RetrievedDataStr = jsonResult.getString("RetrievedData");
-					if(RetrievedDataStr != null && RetrievedDataStr.length() != 0){
-					 CreateNotification(200, RetrievedDataStr);
-					 setLogData(DateTimeNow(), RetrievedDataStr);
-					}else
-					 setLogData(DateTimeNow(), "No Approvals Found");
 					
+					if (RetrievedDataStr != null && RetrievedDataStr.length() != 0) {
+						CreateNotification(200, RetrievedDataStr);
+						setLogData(DateTimeNow(), RetrievedDataStr);
+					} else
+						setLogData(DateTimeNow(), "No Approvals Found");
 				}
 			}	
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
-
 	}
 
 	private void CreateNotification(int notificationId, String contentMsg) {
-			try {
-		Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		
-		Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Result.class);
-		resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		try {
+			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			
+			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Result.class);
+			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		StringBuilder sbMsg = new StringBuilder();
-		sbMsg.append("(");
-		sbMsg.append(notificationId);
-		sbMsg.append(")");
-		sbMsg.append(contentMsg);
-		
-		// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
-		 
-		NotificationCompat.Builder mBuilder =
-			new NotificationCompat.Builder(this)
-				.setSound(uri)
-				.setSmallIcon(R.drawable.ic_dialog_info)
-				.setContentTitle("Pylon Management")
-				.setContentText(contentMsg)
-				.setContentIntent(resultPendingIntent);
+			PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			
+			StringBuilder sbMsg = new StringBuilder();
+			sbMsg.append("(");
+			sbMsg.append(notificationId);
+			sbMsg.append(")");
+			sbMsg.append(contentMsg);
+			
+			// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
+			 
+			NotificationCompat.Builder mBuilder =
+				new NotificationCompat.Builder(this)
+					.setSound(uri)
+					.setSmallIcon(R.drawable.ic_dialog_info)
+					.setContentTitle("Pylon Management")
+					.setContentText(contentMsg)
+					.setContentIntent(resultPendingIntent);
 
-		NotificationManager mNotifyMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-		mNotifyMgr.notify(notificationId, mBuilder.build());
+			NotificationManager mNotifyMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+			mNotifyMgr.notify(notificationId, mBuilder.build());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			setLogData(DateTimeNow(), e.getMessage());
 			return ;
 		}
 	}
 	
-	
 	private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager 
-              = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -472,8 +483,10 @@ private final static String _LogData = "LogData";
 				setParams(_Uuid, config.getString(_Uuid));
 				
 			if (config.has(_LogData))
-				setParams(_LogData, _MissingParam);
-
+				setParams(_LogData, "");
+			
+			if (config.has(_LogHistoryNum))
+				setParams(_LogHistoryNum, config.getString(_LogHistoryNum));
 
 		} catch (JSONException e) {
 		}
