@@ -207,6 +207,7 @@ private final static String _LogData = "LogData";
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
 					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
+					return false;
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
 	                setParams(_Cookie, jsonResult.getString("cookie"));
