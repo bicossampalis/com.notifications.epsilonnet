@@ -399,15 +399,12 @@ private final static String _LogData = "LogData";
 	
 	@Override
 	protected JSONObject doWork() {
-		
 		JSONObject result = new JSONObject();
-
 		try {
-
 			
 			String msg = "Pylon Management " + DateTimeNow();
-
 			result.put("Message", msg);
+			
 			if(isNetworkAvailable()){
 				if (Login()) {
 					GetNotification();
