@@ -1,6 +1,6 @@
 package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.media.Ringtone;
@@ -485,10 +485,7 @@ private final static String _LogData = "LogData";
 		
 	}
 
-	@Override
-	protected void setLatestResult(JSONObject value) {
-		super.setLatestResult(value);
-	}
+
 }
 
 
