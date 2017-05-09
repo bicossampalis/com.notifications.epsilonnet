@@ -105,10 +105,9 @@ private final static String _LogLimit = "LogLimit";
 				logJson = new JSONObject(logStr);
 			
 			JSONArray log =  (JSONArray)logJson.get("Data");
-			
-			if (log.length() == getIntParams(_LogLimit)) {
+
+			while (log.size() >= getIntParams(_LogLimit))
 				log.remove(0);
-			}
 			
 			JSONObject newJson = new JSONObject();
 			newJson.put("TimeStamp", timestamp);
