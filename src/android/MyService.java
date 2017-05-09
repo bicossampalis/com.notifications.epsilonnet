@@ -477,7 +477,7 @@ private final static String _LogLimit = "LogLimit";
 				setParams(_Uuid, config.getString(_Uuid));
 				
 			if (config.has(_LogLimit))
-				setIntParams(_LogLimit, config.getString(_LogLimit));
+				setIntParams(_LogLimit, config.getInt(_LogLimit));
 				
 			if (config.has(_LogData))
 				setParams(_LogData, _MissingParam);
