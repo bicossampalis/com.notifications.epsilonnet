@@ -49,7 +49,7 @@ private final static String _LoginData = "LoginData";
 private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
-private final static int _LogLimit = "LogLimit";
+private final static String _LogLimit = "LogLimit";
 
 	public int getIntParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
