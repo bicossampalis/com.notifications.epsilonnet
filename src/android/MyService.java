@@ -49,12 +49,25 @@ private final static String _LoginData = "LoginData";
 private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
+private final static int _LogLimit = "LogLimit";
 
+	public int getIntParams(String key) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		return sharedPrefs.getInt(this.getClass().getName() + "." + key, 10);
+	}
+	
 	public String getParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		return sharedPrefs.getString(this.getClass().getName() + "." + key, _MissingParam);
 	}
 
+	public void setIntParams(String key, int value) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = sharedPrefs.edit();
+		editor.putInt(this.getClass().getName() + "." + key, value);
+		editor.commit();
+	}
+	
 	public void setParams(String key, String value) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -79,7 +92,7 @@ private final static String _LogData = "LogData";
 		return url;
 	}
 
-	private void setLogData(String timestamp, String contentMsg) {
+	private void setLogData(String timestamp, String contentMsg, String error) {
 		try {
 			String logStr = getParams(_LogData);
 			JSONObject logJson = null;
@@ -93,13 +106,14 @@ private final static String _LogData = "LogData";
 			
 			JSONArray log =  (JSONArray)logJson.get("Data");
 			
-			if (log.length() == 10) {
+			if (log.length() == getIntParams(_LogLimit)) {
 				log.remove(0);
 			}
 			
 			JSONObject newJson = new JSONObject();
 			newJson.put("TimeStamp", timestamp);
 			newJson.put("Message", contentMsg);
+			newJson.put("Error", error);
 			log.put(newJson);
 			
 			JSONObject newLogJson = new JSONObject();
@@ -123,7 +137,7 @@ private final static String _LogData = "LogData";
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 		
@@ -132,7 +146,7 @@ private final static String _LogData = "LogData";
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -145,7 +159,7 @@ private final static String _LogData = "LogData";
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -156,7 +170,7 @@ private final static String _LogData = "LogData";
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -165,7 +179,7 @@ private final static String _LogData = "LogData";
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -174,7 +188,7 @@ private final static String _LogData = "LogData";
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 		
@@ -187,7 +201,7 @@ private final static String _LogData = "LogData";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -195,7 +209,7 @@ private final static String _LogData = "LogData";
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 
@@ -206,7 +220,7 @@ private final static String _LogData = "LogData";
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"),"true");
 					return false;
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
@@ -217,7 +231,7 @@ private final static String _LogData = "LogData";
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return false;
 		}
 		
@@ -236,7 +250,7 @@ private final static String _LogData = "LogData";
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 		
@@ -245,7 +259,7 @@ private final static String _LogData = "LogData";
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -258,7 +272,7 @@ private final static String _LogData = "LogData";
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -269,7 +283,7 @@ private final static String _LogData = "LogData";
 			inputParams.put("roleid", getParams(_RoleID));
 		} catch (JSONException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return;
 		}
 
@@ -280,7 +294,7 @@ private final static String _LogData = "LogData";
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -289,7 +303,7 @@ private final static String _LogData = "LogData";
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -298,7 +312,7 @@ private final static String _LogData = "LogData";
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 		
@@ -311,7 +325,7 @@ private final static String _LogData = "LogData";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -319,7 +333,7 @@ private final static String _LogData = "LogData";
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 
@@ -330,7 +344,7 @@ private final static String _LogData = "LogData";
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"));
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"),"true");
 				} else {
 					
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
@@ -338,15 +352,15 @@ private final static String _LogData = "LogData";
 					
 					if (RetrievedDataStr != null && RetrievedDataStr.length() != 0) {
 						CreateNotification(200, RetrievedDataStr);
-						setLogData(DateTimeNow(), RetrievedDataStr);
+						setLogData(DateTimeNow(), RetrievedDataStr,"false");
 					} else
-						setLogData(DateTimeNow(), "No Approvals Found");
+						setLogData(DateTimeNow(), "No Approvals Found","false");
 				}
 			}	
 
 		} catch (JSONException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 	}
@@ -380,7 +394,7 @@ private final static String _LogData = "LogData";
 			mNotifyMgr.notify(notificationId, mBuilder.build());
 		} catch (Exception e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 			return ;
 		}
 	}
@@ -411,7 +425,7 @@ private final static String _LogData = "LogData";
 				}
 			}
 		} catch (JSONException e) {
-			setLogData(DateTimeNow(), e.getMessage());
+			setLogData(DateTimeNow(), e.getMessage(),"true");
 		}
 		
 		return result;	
@@ -430,6 +444,7 @@ private final static String _LogData = "LogData";
 			result.put(_Https, getParams(_Https));
 			result.put(_Uuid, getParams(_Uuid));
 		    result.put(_LogData, getParams(_LogData));
+			result.put(_LogLimit, getIntParams(_LogLimit));
 		} catch (JSONException e) {
 		}
 		
@@ -460,8 +475,12 @@ private final static String _LogData = "LogData";
 
 			if (config.has(_Uuid))
 				setParams(_Uuid, config.getString(_Uuid));
-
-			setParams(_LogData, _MissingParam);
+				
+			if (config.has(_LogLimit))
+				setIntParams(_LogLimit, config.getString(_LogLimit));
+				
+			if (config.has(_LogData))
+				setParams(_LogData, _MissingParam);
 
 		} catch (JSONException e) {
 		}
