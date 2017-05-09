@@ -106,7 +106,7 @@ private final static String _LogLimit = "LogLimit";
 			
 			JSONArray log =  (JSONArray)logJson.get("Data");
 
-			while (log.size() >= getIntParams(_LogLimit))
+			while (log.length() >= getIntParams(_LogLimit))
 				log.remove(0);
 			
 			JSONObject newJson = new JSONObject();
