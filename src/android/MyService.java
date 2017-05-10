@@ -40,7 +40,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import javax.swing.Icon;
+import android.graphics.drawable.Icon;
 
 public class MyService extends BackgroundService {
 
