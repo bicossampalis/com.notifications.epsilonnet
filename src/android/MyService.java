@@ -1,7 +1,6 @@
 package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +36,11 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import javax.swing.Icon;
 
 public class MyService extends BackgroundService {
 
@@ -382,11 +386,12 @@ private final static String _LogLimit = "LogLimit";
 			sbMsg.append(contentMsg);
 			
 			// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
-			 
+			 Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon("com.epsilonnet.pylonmanagement");
+			   Bitmap bitmap = ((BitmapDrawable)icon).getBitmap();
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 					.setSound(uri)
-					.setSmallIcon(cordova.getContext().getResources().getDrawable(R.drawable.ic_launcher))
+					.setSmallIcon(Icon.createWithBitmap(bitmap))
 					.setContentTitle("Pylon Management")
 					.setContentText(contentMsg)
 					.setContentIntent(resultPendingIntent);
