@@ -1,5 +1,7 @@
 package com.red_folder.phonegap.plugin.backgroundservice.sample;
 
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -384,7 +386,7 @@ private final static String _LogLimit = "LogLimit";
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 					.setSound(uri)
-					.setSmallIcon(getApplicationContext().getResources().getDrawable(R.drawable.ic_launcher))
+					.setSmallIcon(cordova.getContext().getResources().getDrawable(R.drawable.ic_launcher))
 					.setContentTitle("Pylon Management")
 					.setContentText(contentMsg)
 					.setContentIntent(resultPendingIntent);
