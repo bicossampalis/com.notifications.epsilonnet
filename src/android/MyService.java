@@ -384,7 +384,7 @@ private final static String _LogLimit = "LogLimit";
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 					.setSound(uri)
-					.setSmallIcon(R.drawable.ic_launcher)
+					.setSmallIcon(R.mipmap.ic_launcher)
 					.setContentTitle("Pylon Management")
 					.setContentText(contentMsg)
 					.setContentIntent(resultPendingIntent);
