@@ -56,6 +56,9 @@ private final static String _Https = "Https";
 private final static String _Uuid = "Uuid";
 private final static String _LogData = "LogData";
 private final static String _LogLimit = "LogLimit";
+private final static String _Package = "Package";
+private final static String _CallName = "CallName";
+private final static String _AppName = "AppName";
 
 	public int getIntParams(String key) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -244,8 +247,8 @@ private final static String _LogLimit = "LogLimit";
 	}
 	
 	private void GetNotification() {
-		
-		String url = GetUrl("pdaMGNotifyForPendingApprovals");
+		String callName = getParams(_CallName);
+		String url = GetUrl(callName);
 		String cookie = getParams(_Cookie);
 		if (url.equals(_MissingParam) || cookie.equals(_MissingParam))
 			return ;
@@ -359,7 +362,7 @@ private final static String _LogLimit = "LogLimit";
 						CreateNotification(200, RetrievedDataStr);
 						setLogData(DateTimeNow(), RetrievedDataStr,"false");
 					} else
-						setLogData(DateTimeNow(), "No Approvals Found","false");
+						setLogData(DateTimeNow(), "No Assignments Found","false");
 				}
 			}	
 
@@ -373,8 +376,9 @@ private final static String _LogLimit = "LogLimit";
 	private void CreateNotification(int notificationId, String contentMsg) {
 		try {
 			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-			
-			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.epsilonnet.pylonmanagement");//new Intent(this, Result.class);
+			String package = getParams(_Package);
+			String appName = getParams(_AppName);
+			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage(package);//new Intent(this, Result.class);
 			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 			PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -385,15 +389,15 @@ private final static String _LogLimit = "LogLimit";
 			sbMsg.append(")");
 			sbMsg.append(contentMsg);
 			
-			// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", "com.epsilonnet.pylonmanagement" );
-			 Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon("com.epsilonnet.pylonmanagement");
+			// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", package );
+			 Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon(package);
 			   Bitmap bitmap = ((BitmapDrawable)icon).getBitmap();
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
 					.setSound(uri)
 					.setSmallIcon(R.drawable.ic_dialog_info)
 					.setLargeIcon(bitmap)
-					.setContentTitle("Pylon Management")
+					.setContentTitle(appName)
 					.setContentText(contentMsg)
 					.setContentIntent(resultPendingIntent);
 
@@ -422,8 +426,8 @@ private final static String _LogLimit = "LogLimit";
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
 		try {
-			
-			String msg = "Pylon Management " + DateTimeNow();
+			String appName = getParams(_AppName);
+			String msg = appName + DateTimeNow();
 			result.put("Message", msg);
 			
 			if(isNetworkAvailable()){
@@ -452,6 +456,9 @@ private final static String _LogLimit = "LogLimit";
 			result.put(_Uuid, getParams(_Uuid));
 		    result.put(_LogData, getParams(_LogData));
 			result.put(_LogLimit, getIntParams(_LogLimit));
+			result.put(_CallName, getParams(_CallName));
+			result.put(_Package, getParams(_Package));
+			result.put(_AppName, getParams(_AppName));
 		} catch (JSONException e) {
 		}
 		
@@ -488,6 +495,15 @@ private final static String _LogLimit = "LogLimit";
 				
 			if (config.has(_LogData))
 				setParams(_LogData, _MissingParam);
+				
+			if (config.has(_CallName))
+				setParams(_CallName, config.getString(_CallName));
+				
+			if (config.has(_Package))
+				setParams(_Package, config.getString(_Package));
+				
+			if (config.has(_AppName))
+				setParams(_AppName, config.getString(_AppName));
 
 		} catch (JSONException e) {
 		}
