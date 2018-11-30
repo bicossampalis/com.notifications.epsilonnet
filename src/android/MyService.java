@@ -376,9 +376,9 @@ private final static String _AppName = "AppName";
 	private void CreateNotification(int notificationId, String contentMsg) {
 		try {
 			Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-			String package = getParams(_Package);
+			String pkg = getParams(_Package);
 			String appName = getParams(_AppName);
-			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage(package);//new Intent(this, Result.class);
+			Intent resultIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage(pkg);//new Intent(this, Result.class);
 			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 			PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -390,7 +390,7 @@ private final static String _AppName = "AppName";
 			sbMsg.append(contentMsg);
 			
 			// int resourceID = getApplicationContext().getResources().getIdentifier( "icon" , "drawable", package );
-			 Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon(package);
+			 Drawable icon = getApplicationContext().getPackageManager().getApplicationIcon(pkg);
 			   Bitmap bitmap = ((BitmapDrawable)icon).getBitmap();
 			NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this)
