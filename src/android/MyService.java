@@ -360,7 +360,7 @@ private final static String _AppName = "AppName";
 					
 					if (RetrievedDataStr != null && RetrievedDataStr.length() != 0) {
 						CreateNotification(200, RetrievedDataStr);
-						setLogData(DateTimeNow(), RetrievedDataStr+" - 21","false");
+						setLogData(DateTimeNow(), RetrievedDataStr,"false");
 					} else
 						setLogData(DateTimeNow(), "No Data Found","false");
 				}
