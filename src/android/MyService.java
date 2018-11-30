@@ -145,7 +145,7 @@ private final static String _AppName = "AppName";
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 1","true");
 			return false;
 		}
 		
@@ -154,7 +154,7 @@ private final static String _AppName = "AppName";
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 2","true");
 			return false;
 		}
 
@@ -167,7 +167,7 @@ private final static String _AppName = "AppName";
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 3","true");
 			return false;
 		}
 
@@ -178,7 +178,7 @@ private final static String _AppName = "AppName";
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 4","true");
 			return false;
 		}
 
@@ -187,7 +187,7 @@ private final static String _AppName = "AppName";
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 5","true");
 			return false;
 		}
 
@@ -196,7 +196,7 @@ private final static String _AppName = "AppName";
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 6","true");
 			return false;
 		}
 		
@@ -209,7 +209,7 @@ private final static String _AppName = "AppName";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 7","true");
 			return false;
 		}
 
@@ -217,7 +217,7 @@ private final static String _AppName = "AppName";
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 8","true");
 			return false;
 		}
 
@@ -228,7 +228,7 @@ private final static String _AppName = "AppName";
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"),"true");
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error")+" - 9","true");
 					return false;
 				} else {
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
@@ -239,7 +239,7 @@ private final static String _AppName = "AppName";
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 10","true");
 			return false;
 		}
 		
@@ -258,7 +258,7 @@ private final static String _AppName = "AppName";
 			obj = new URL(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 11","true");
 			return ;
 		}
 		
@@ -267,7 +267,7 @@ private final static String _AppName = "AppName";
 			con = (HttpURLConnection)obj.openConnection();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 12","true");
 			return ;
 		}
 
@@ -280,7 +280,7 @@ private final static String _AppName = "AppName";
 			 con.setRequestMethod("POST");
 		} catch (ProtocolException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 13","true");
 			return ;
 		}
 
@@ -291,7 +291,7 @@ private final static String _AppName = "AppName";
 			inputParams.put("roleid", getParams(_RoleID));
 		} catch (JSONException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 14","true");
 			return;
 		}
 
@@ -302,7 +302,7 @@ private final static String _AppName = "AppName";
 			wr.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 15","true");
 			return ;
 		}
 
@@ -311,7 +311,7 @@ private final static String _AppName = "AppName";
 			responseCode = con.getResponseCode();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 16","true");
 			return ;
 		}
 
@@ -320,7 +320,7 @@ private final static String _AppName = "AppName";
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 17","true");
 			return ;
 		}
 		
@@ -333,7 +333,7 @@ private final static String _AppName = "AppName";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 18","true");
 			return ;
 		}
 
@@ -341,7 +341,7 @@ private final static String _AppName = "AppName";
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 19","true");
 			return ;
 		}
 
@@ -352,7 +352,7 @@ private final static String _AppName = "AppName";
 				
 				String status = jsonResponse.getString("Status");
 				if (status.equals("ERROR")){
-					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error"),"true");
+					setLogData(DateTimeNow(), "Error : " + jsonResponse.getString("Error")+" - 20","true");
 				} else {
 					
 					JSONObject jsonResult = new JSONObject(jsonResponse.getString("Result"));
@@ -360,15 +360,15 @@ private final static String _AppName = "AppName";
 					
 					if (RetrievedDataStr != null && RetrievedDataStr.length() != 0) {
 						CreateNotification(200, RetrievedDataStr);
-						setLogData(DateTimeNow(), RetrievedDataStr,"false");
+						setLogData(DateTimeNow(), RetrievedDataStr+" - 21","false");
 					} else
-						setLogData(DateTimeNow(), "No Assignments Found","false");
+						setLogData(DateTimeNow(), "No Data Found","false");
 				}
 			}	
 
 		} catch (JSONException e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 22","true");
 			return ;
 		}
 	}
@@ -405,7 +405,7 @@ private final static String _AppName = "AppName";
 			mNotifyMgr.notify(notificationId, mBuilder.build());
 		} catch (Exception e) {
 			e.printStackTrace();
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 23","true");
 			return ;
 		}
 	}
@@ -436,7 +436,7 @@ private final static String _AppName = "AppName";
 				}
 			}
 		} catch (JSONException e) {
-			setLogData(DateTimeNow(), e.getMessage(),"true");
+			setLogData(DateTimeNow(), e.getMessage()+" - 24","true");
 		}
 		
 		return result;	
