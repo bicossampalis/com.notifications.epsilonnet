@@ -19,7 +19,7 @@
  * This needs to be full qualified name of your service class
  * This will be the combination of the package & class name in your service java file
  */
-var serviceName = 'com.red_folder.phonegap.plugin.backgroundservice.sample.MyService';
+
 
 /*
  * Get an instance of the background service factory
@@ -30,6 +30,6 @@ var serviceName = 'com.red_folder.phonegap.plugin.backgroundservice.sample.MySer
 
 
 function createService(name){
-	var factory = require(name);
-	module.exports = factory.create(serviceName);
+	var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
+	module.exports = factory.create(name);
 }
