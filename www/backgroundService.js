@@ -19,13 +19,15 @@
   */
 function BackgroundServiceFactory() { }
 
-BackgroundServiceFactory.prototype.create = function (serviceName) {
+BackgroundServiceFactory.prototype.create = function () {
 	var exec = require("cordova/exec");
-	
-	var BackgroundService = function (serviceName) {
-		var ServiceName = serviceName;
+	var BackgroundService = function () {
+		var ServiceName = '';
 		this.getServiceName = function() {
 			return ServiceName;
+		};
+		this.setServiceName = function(serviceName) {
+			ServiceName = serviceName;
 		};
 	};
 
@@ -45,7 +47,9 @@ BackgroundServiceFactory.prototype.create = function (serviceName) {
 	  *		int TimerMilliseconds - Milliseconds used by the background service if Timer enabled
 	  *		Boolean RegisteredForUpdates - True if the Service is registered to send updates to the front-end
 	  */
-
+	BackgroundService.prototype.setServiceName = function(serviceName) { 
+		this.getServiceName(serviceName);
+	};
 	/**
 	  * Starts the Service
 	  * 
@@ -217,7 +221,7 @@ BackgroundServiceFactory.prototype.create = function (serviceName) {
 						[this.getServiceName()]);
 	};
 
-	var backgroundService = new BackgroundService(serviceName);
+	var backgroundService = new BackgroundService();
 	return backgroundService;
 }; 
 

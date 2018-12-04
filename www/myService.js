@@ -24,15 +24,5 @@
  * Get an instance of the background service factory
  * Use it to create a background service wrapper for your service
  */
-
- function MyService() {
-	 
- }
- 
- MyService.prototype.Create = function (name) {
 	 var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
-	 module.exports = factory.create(name);
- }
- 
-  var myService = new MyService();
-  module.exports = myService;
+	 module.exports = factory.create();
