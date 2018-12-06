@@ -525,4 +525,8 @@ private final static String _AppName = "AppName";
 
 }
 
+public class MyService2 extends MyService {
+	
+}
+
 
