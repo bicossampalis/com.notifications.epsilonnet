@@ -1,82 +1,18 @@
-/*
- * Copyright 2013 Red Folder Consultancy Ltd
- *   
- * Licensed under the Apache License, Version 2.0 (the "License");   
- * you may not use this file except in compliance with the License.   
- * You may obtain a copy of the License at       
- * 
- * 	http://www.apache.org/licenses/LICENSE-2.0   
- *
- * Unless required by applicable law or agreed to in writing, software   
- * distributed under the License is distributed on an "AS IS" BASIS,   
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   
- * See the License for the specific language governing permissions and   
- * limitations under the License.
- */
-
-/*
- * Service Name
- * This needs to be full qualified name of your service class
- * This will be the combination of the package & class name in your service java file
- */
-
-/*
- * Get an instance of the background service factory
- * Use it to create a background service wrapper for your service
- */
-	 //var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
-	 //module.exports = factory.create();
-
-	 
-	 
-	 var MyService = function(serviceName){
-		 //var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
-		module.exports = BackgroundServiceFactory(serviceName);
-	 }
-	 
-	 module.exports = MyService;
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-
-
-var BackgroundServiceFactory = function (serviceName) {
+//var BackgroundServiceFactory = function () {
 	var exec = require("cordova/exec");
-	
-	var BackgroundService = function (serviceName) {
-		var ServiceName = serviceName;
+	var BackgroundService = function () {
+		var ServiceName = '';
 		this.getServiceName = function() {
 			return ServiceName;
 		};
+		this.setServiceName = function(serviceName) {
+			ServiceName = serviceName;
+		};
 	};
 
-	/**
-	  * All methods attempt to return the following data in both the success and failure callbacks
-	  * Front end development should take into account any all or all of these values may be null
-	  *
-	  * Following returned in the JSONObject:
-	  *		Boolean Success - was the call a success
-	  *		int ErrorCode - Error code if an error occurred, else will be zero
-	  *		String ErrorMessage - Text representation of the error code
-	  *		Boolean ServiceRunning - True if the Service is running
-	  *		Boolean TimerEnabled - True if the Timer is enabled
-	  *		Boolean RegisteredForBootStart - True if the Service is registered for boot start
-	  *		JSONObject Configuration - A JSONObject of the configuration of the service (contents dependant on the service)
-	  *		JSONObject LastestResult - A JSONObject of the last result of the service (contents dependant on the service)
-	  *		int TimerMilliseconds - Milliseconds used by the background service if Timer enabled
-	  *		Boolean RegisteredForUpdates - True if the Service is registered to send updates to the front-end
-	  */
-
+	BackgroundService.prototype.setServiceName = function(serviceName) { 
+		this.getServiceName(serviceName);
+	};
 	/**
 	  * Starts the Service
 	  * 
@@ -248,6 +184,6 @@ var BackgroundServiceFactory = function (serviceName) {
 						[this.getServiceName()]);
 	};
 
-	var backgroundService = new BackgroundService(serviceName);
-	return backgroundService;
-}; 
+	var backgroundService = new BackgroundService();
+	module.exports = backgroundService;
+//}; 
