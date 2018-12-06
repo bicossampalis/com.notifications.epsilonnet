@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.red_folder.phonegap.plugin.backgroundservice.sample"
-        version="3.29">
+        version="3.30">
 
     <name>Background Service Plugin</name>
     <description>
@@ -36,6 +36,7 @@
             </service>
         </config-file>
         <source-file src="src/android/MyService.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
+		<source-file src="src/android/MyService2.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
     </platform>
 	
 </plugin>
