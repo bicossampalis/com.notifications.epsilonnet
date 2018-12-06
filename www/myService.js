@@ -29,11 +29,9 @@
 
 	 
 	 
-	 function MyService() { }
-	 
-	 MyService.prototype.create = function (serviceName) {
-		var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
+	 var MyService = function(serviceName){
+		 var factory = require('com.red_folder.phonegap.plugin.backgroundservice.BackgroundService');
 		module.exports = factory.create(serviceName);
-	 };
+	 }
 	 
-	 module.exports = MyService();
+	 module.exports = MyService;
