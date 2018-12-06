@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.red_folder.phonegap.plugin.backgroundservice.sample"
-        version="3.31">
+        version="3.32">
 
     <name>Background Service Plugin</name>
     <description>
@@ -29,14 +29,14 @@
                     <action android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.MyService"/> 
                 </intent-filter>     
             </service>
-			 <service android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.MyService2">
+			 <service android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.WMAService">
                 <intent-filter>         
-                    <action android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.MyService2"/> 
+                    <action android:name="com.red_folder.phonegap.plugin.backgroundservice.sample.WMAService"/> 
                 </intent-filter>     
             </service>
         </config-file>
         <source-file src="src/android/MyService.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
-		<source-file src="src/android/MyService2.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
+		<source-file src="src/android/WMAService.java" target-dir="src/com/red_folder/phonegap/plugin/backgroundservice/sample" />
     </platform>
 	
 </plugin>

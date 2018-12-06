@@ -42,7 +42,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 
-public class MyService2 extends MyService {
+public class WMAServices extends MyService {
 
 	
 }
